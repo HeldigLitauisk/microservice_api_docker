@@ -11,6 +11,8 @@ docker run --network="host" -p 8080:8080 main_api
 """
 import datetime
 import logging
+import os
+
 import connexion
 from connexion import NoContent
 import radio_db
@@ -68,7 +70,8 @@ def post_register_radio(radio_id, radio):
 
 logging.basicConfig(level=logging.INFO)
 # Uses postgresql database server running as docker instance
-db_session = radio_db.init_db('postgresql+psycopg2://postgres@localhost/postgres?port=5432')
+db_session = radio_db.init_db('postgresql+psycopg2://postgres@{host_ip}/postgres?port=5432'.format(
+    host_ip=os.environ['POSTGRES_HOST']))
 app = connexion.FlaskApp(__name__)
 app.add_api('swagger.yaml')
 

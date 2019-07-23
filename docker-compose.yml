@@ -1,9 +1,10 @@
 version: "3.5"
 services:
-  main_api:
+  service_api:
     build: .
     environment:
       - MODE=dev
+      - POSTGRES_HOST=host.docker.internal
     volumes:
       - .:/code
     depends_on:
