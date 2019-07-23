@@ -1,0 +1,90 @@
+swagger: '2.0'
+info:
+  title: Motorola radio profile API
+  version: "0.1"
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /radios/{radio_id}:
+    post:
+      operationId: app.post_register_radio
+      summary: Create or update radio profile
+      parameters:
+        - $ref: '#/parameters/radio_id'
+        - name: radio
+          in: body
+          schema:
+            $ref: '#/definitions/RadioProfile'
+      responses:
+        200:
+          description: Radio Profile was updared
+        201:
+          description: New Radio Profile was created
+
+  /radios/{radio_id}/location:
+    get:
+      operationId: app.get_location
+      summary: Get a location
+      parameters:
+        - $ref: '#/parameters/radio_id'
+      responses:
+        200:
+          description: Return location of the object
+          schema:
+            $ref: '#/definitions/Location'
+        404:
+          description: Location Not Found error
+    post:
+      operationId: app.post_location
+      summary: Create or update object's location
+      parameters:
+        - $ref: '#/parameters/radio_id'
+        - name: location
+          in: body
+          schema:
+            $ref: '#/definitions/Location'
+      responses:
+        200:
+          description: Location was updated
+        403:
+          description: Action was forbidden
+
+parameters:
+  radio_id:
+    name: radio_id
+    description: Radio ID (a unique integer)
+    in: path
+    type: string
+    required: true
+    pattern: "^[0-9]+$"
+
+definitions:
+  Location:
+    type: object
+    required:
+      - location
+    properties:
+      location:
+        type: string
+        description: Name of the location object
+        minLength: 1
+        maxLength: 100
+
+  RadioProfile:
+    type: object
+    required:
+      - alias
+      - allowed_locations
+    properties:
+      alias:
+        type: string
+        description: Radio profile alias name
+        minLength: 1
+        maxLength: 100
+      allowed_locations:
+        type: array
+        description: List of allowed radio locations
