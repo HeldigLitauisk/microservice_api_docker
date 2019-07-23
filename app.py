@@ -5,9 +5,7 @@ Main API page for returning information postreSQL database
 JSON requests scheme is being validated inside swagger.yaml file
 
 Usage:
-docker-compose up -d
-docker-compose build
-docker run --network="host" -p 8080:8080 main_api
+docker-compose build && docker-compose up -d
 """
 import datetime
 import logging
